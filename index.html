@@ -7,112 +7,129 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #f6f8fb;
-    color: #0f172a;
-    -webkit-font-smoothing: antialiased;
-    min-height: 100vh;
-  }
-  input, textarea, button { font-family: inherit; }
-  input:focus, textarea:focus { border-color: #2563eb !important; box-shadow: 0 0 0 3px rgba(37,99,235,0.08); }
-  button { transition: opacity 0.15s; }
-  button:active { opacity: 0.75; }
-
-  /* Setup */
-  .setup-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background: linear-gradient(145deg, #f0f4ff 0%, #fafbff 50%, #f5f0ff 100%); }
-  .setup-card { width: 100%; max-width: 440px; background: #fff; border-radius: 20px; padding: 36px 28px 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.04), 0 12px 40px rgba(0,0,0,0.06); }
-  .setup-brand { text-align: center; margin-bottom: 28px; }
-  .setup-logo { width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, #2563eb, #7c3aed); color: #fff; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 14px; }
-  .setup-title { font-size: 21px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 6px; }
-  .setup-desc { font-size: 13.5px; color: #64748b; line-height: 1.5; }
-
-  .form-group { margin-bottom: 18px; }
-  .form-label { display: block; font-size: 13px; font-weight: 650; color: #1e293b; margin-bottom: 6px; }
-  .form-input { width: 100%; padding: 11px 14px; font-size: 14px; border: 1.5px solid #e2e8f0; border-radius: 11px; outline: none; color: #0f172a; background: #fafbfc; }
-  .form-hint { font-size: 11.5px; color: #94a3b8; margin-top: 5px; line-height: 1.4; }
-  .error-box { font-size: 13px; color: #dc2626; background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; line-height: 1.5; }
-  .progress-box { font-size: 13px; color: #2563eb; background: #eff6ff; border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; text-align: center; }
-  .btn-primary { width: 100%; padding: 12px; font-size: 14.5px; font-weight: 700; color: #fff; background: linear-gradient(135deg, #2563eb, #4f46e5); border: none; border-radius: 11px; cursor: pointer; }
-  .btn-primary:disabled { opacity: 0.65; cursor: not-allowed; }
-
-  /* Header */
-  .hdr { background: #fff; border-bottom: 1px solid #eef1f6; position: sticky; top: 0; z-index: 100; }
-  .hdr-inner { max-width: 600px; margin: 0 auto; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
-  .hdr-left { display: flex; align-items: center; gap: 10px; }
-  .hdr-logo { width: 34px; height: 34px; border-radius: 9px; background: linear-gradient(135deg, #2563eb, #7c3aed); color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .hdr-title { font-size: 16px; font-weight: 800; letter-spacing: -0.03em; }
-  .hdr-meta { font-size: 11px; color: #94a3b8; }
-  .hdr-actions { display: flex; gap: 6px; }
-  .hdr-btn { width: 34px; height: 34px; border-radius: 9px; border: 1.5px solid #e8ecf2; background: #fff; color: #64748b; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-  .hdr-btn.active { border-color: #2563eb; background: #eff6ff; color: #2563eb; }
-
-  /* Main */
-  .main-content { max-width: 600px; margin: 0 auto; padding: 14px 16px 100px; display: flex; flex-direction: column; gap: 14px; }
-  .card { background: #fff; border-radius: 16px; padding: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); border: 1px solid #eef1f6; }
-  .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-  .card-label { font-size: 13.5px; font-weight: 700; }
-  .mode-toggle { font-size: 12px; font-weight: 600; color: #2563eb; background: #f0f4ff; border: none; border-radius: 6px; padding: 4px 10px; cursor: pointer; }
-
-  .input-field { width: 100%; padding: 11px 14px; font-size: 14px; border: 1.5px solid #e2e8f0; border-radius: 11px; outline: none; color: #0f172a; background: #fafbfc; }
-  .input-area { width: 100%; padding: 11px 14px; font-size: 13px; border: 1.5px solid #e2e8f0; border-radius: 11px; outline: none; color: #0f172a; background: #fafbfc; font-family: 'SF Mono', Consolas, monospace; resize: vertical; line-height: 1.6; min-height: 90px; }
-
-  .sub-toggle { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: #64748b; background: none; border: none; cursor: pointer; padding: 10px 0 0; }
-  .sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; padding: 12px; background: #f8fafc; border-radius: 11px; }
-  .sub-label { font-size: 10.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 3px; display: block; }
-  .sub-input { padding: 8px 10px; font-size: 13px; border: 1.5px solid #e2e8f0; border-radius: 8px; outline: none; color: #0f172a; background: #fff; width: 100%; }
-
-  .gen-btn { width: 100%; padding: 12px; font-size: 14px; font-weight: 700; color: #fff; background: #0f172a; border: none; border-radius: 11px; cursor: pointer; margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 6px; }
-
-  .copy-btn { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; font-size: 11.5px; font-weight: 700; border: none; border-radius: 7px; cursor: pointer; white-space: nowrap; flex-shrink: 0; background: #f0f4ff; color: #2563eb; }
-  .copy-btn.copied { background: #ecfdf5; color: #059669; }
-
-  .result-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-  .res-ok { background: #f8fafc; border-radius: 12px; padding: 14px; border: 1px solid #eef1f6; }
-  .res-err { background: #fef2f2; border-radius: 12px; padding: 14px; border: 1px solid #fecaca; }
-  .res-head { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
-  .badge { font-size: 11px; font-weight: 700; color: #2563eb; background: #eff6ff; padding: 2px 8px; border-radius: 5px; display: inline-block; }
-  .warn-badge { font-size: 10px; color: #d97706; background: #fffbeb; padding: 2px 7px; border-radius: 5px; }
-  .res-url { font-size: 12px; color: #94a3b8; margin-bottom: 8px; word-break: break-all; line-height: 1.4; }
-  .res-err-text { font-size: 13px; color: #dc2626; font-weight: 600; }
-  .res-out { background: #fff; border-radius: 9px; padding: 9px 11px; border: 1px solid #e8ecf2; display: flex; align-items: flex-start; gap: 8px; }
-  .res-out-text { font-size: 11px; color: #334155; word-break: break-all; line-height: 1.55; flex: 1; font-family: 'SF Mono', Consolas, monospace; }
-
-  .panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-  .close-btn { background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px; display: flex; align-items: center; }
-  .close-group { display: flex; gap: 6px; }
-
-  .brand-list { max-height: 380px; overflow-y: auto; }
-  .brand-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f3f5f8; gap: 10px; }
-  .brand-name { font-size: 13px; font-weight: 650; }
-  .brand-id { font-size: 11px; color: #cbd5e1; font-weight: 400; }
-  .brand-domain { font-size: 11px; color: #94a3b8; margin-top: 1px; }
-  .brand-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-  .dl-badge { font-size: 10px; font-weight: 700; color: #059669; background: #ecfdf5; padding: 2px 7px; border-radius: 5px; }
-  .comm-text { font-size: 11px; color: #64748b; max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-  .hist-list { max-height: 400px; overflow-y: auto; }
-  .hist-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f3f5f8; }
-  .hist-url { font-size: 12px; color: #64748b; margin: 4px 0 2px; word-break: break-all; line-height: 1.35; }
-  .hist-time { font-size: 10px; color: #cbd5e1; }
-
-  .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f3f5f8; gap: 12px; }
-  .setting-title { font-size: 13px; font-weight: 650; }
-  .setting-desc { font-size: 11.5px; color: #94a3b8; margin-top: 2px; }
-  .setting-btn { display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px; font-size: 12px; font-weight: 700; color: #2563eb; background: #f0f4ff; border: none; border-radius: 8px; cursor: pointer; white-space: nowrap; }
-  .setting-btn.danger { color: #dc2626; background: #fef2f2; }
-  .setting-meta { margin-top: 14px; padding: 12px; background: #f8fafc; border-radius: 10px; font-size: 11.5px; color: #94a3b8; line-height: 1.7; font-family: 'SF Mono', Consolas, monospace; word-break: break-all; }
-
-  .empty { font-size: 13px; color: #94a3b8; text-align: center; padding: 24px 0; }
-  .hidden { display: none !important; }
-
-  /* SVG icons inline */
-  .icon { display: inline-flex; align-items: center; justify-content: center; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f6f8fb; color: #0f172a;
+  -webkit-font-smoothing: antialiased; min-height: 100vh;
+}
+input, textarea, button, select { font-family: inherit; }
+input:focus, textarea:focus, select:focus { border-color: #2563eb !important; box-shadow: 0 0 0 3px rgba(37,99,235,0.08); }
+button { transition: opacity 0.15s; }
+button:active { opacity: 0.75; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+ 
+/* Setup */
+.setup-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background: linear-gradient(145deg, #f0f4ff 0%, #fafbff 50%, #f5f0ff 100%); }
+.setup-card { width: 100%; max-width: 440px; background: #fff; border-radius: 20px; padding: 36px 28px 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.04), 0 12px 40px rgba(0,0,0,0.06); }
+.setup-brand { text-align: center; margin-bottom: 28px; }
+.setup-logo { width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg, #2563eb, #7c3aed); color: #fff; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+.setup-title { font-size: 21px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 6px; }
+.setup-desc { font-size: 13.5px; color: #64748b; line-height: 1.5; }
+.form-group { margin-bottom: 18px; }
+.form-label { display: block; font-size: 13px; font-weight: 650; color: #1e293b; margin-bottom: 6px; }
+.form-input { width: 100%; padding: 11px 14px; font-size: 14px; border: 1.5px solid #e2e8f0; border-radius: 11px; outline: none; color: #0f172a; background: #fafbfc; }
+.form-hint { font-size: 11.5px; color: #94a3b8; margin-top: 5px; line-height: 1.4; }
+.error-box { font-size: 13px; color: #dc2626; background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; line-height: 1.5; }
+.progress-box { font-size: 13px; color: #2563eb; background: #eff6ff; border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; text-align: center; }
+.btn-primary { width: 100%; padding: 12px; font-size: 14.5px; font-weight: 700; color: #fff; background: linear-gradient(135deg, #2563eb, #4f46e5); border: none; border-radius: 11px; cursor: pointer; }
+ 
+/* Header */
+.hdr { background: #fff; border-bottom: 1px solid #eef1f6; position: sticky; top: 0; z-index: 100; }
+.hdr-inner { max-width: 600px; margin: 0 auto; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; }
+.hdr-left { display: flex; align-items: center; gap: 10px; }
+.hdr-logo { width: 34px; height: 34px; border-radius: 9px; background: linear-gradient(135deg, #2563eb, #7c3aed); color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.hdr-title { font-size: 16px; font-weight: 800; letter-spacing: -0.03em; }
+.hdr-meta { font-size: 11px; color: #94a3b8; }
+.hdr-actions { display: flex; gap: 6px; }
+.hdr-btn { width: 34px; height: 34px; border-radius: 9px; border: 1.5px solid #e8ecf2; background: #fff; color: #64748b; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; }
+.hdr-btn.active { border-color: #2563eb; background: #eff6ff; color: #2563eb; }
+.hdr-btn .dot { position: absolute; top: 4px; right: 4px; width: 7px; height: 7px; border-radius: 50%; background: #f59e0b; }
+ 
+/* Progress bar in header */
+.load-bar { max-width: 600px; margin: 0 auto; padding: 0 16px 6px; }
+.load-bar-inner { background: #eef1f6; height: 4px; border-radius: 2px; overflow: hidden; position: relative; }
+.load-bar-fill { background: linear-gradient(90deg, #2563eb, #7c3aed); height: 100%; border-radius: 2px; transition: width 0.4s; }
+.load-bar-text { font-size: 10.5px; color: #64748b; margin-top: 3px; display: flex; justify-content: space-between; }
+ 
+/* Main */
+.main-content { max-width: 600px; margin: 0 auto; padding: 14px 16px 100px; display: flex; flex-direction: column; gap: 14px; }
+.card { background: #fff; border-radius: 16px; padding: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); border: 1px solid #eef1f6; }
+.card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.card-label { font-size: 13.5px; font-weight: 700; }
+.mode-toggle { font-size: 12px; font-weight: 600; color: #2563eb; background: #f0f4ff; border: none; border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+.input-field { width: 100%; padding: 11px 14px; font-size: 14px; border: 1.5px solid #e2e8f0; border-radius: 11px; outline: none; color: #0f172a; background: #fafbfc; }
+.input-area { width: 100%; padding: 11px 14px; font-size: 13px; border: 1.5px solid #e2e8f0; border-radius: 11px; outline: none; color: #0f172a; background: #fafbfc; font-family: 'SF Mono', Consolas, monospace; resize: vertical; line-height: 1.6; min-height: 90px; }
+ 
+.sub-toggle { display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: #64748b; background: none; border: none; cursor: pointer; padding: 10px 0 0; }
+.sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; padding: 12px; background: #f8fafc; border-radius: 11px; }
+.sub-label { font-size: 10.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 3px; display: block; }
+.sub-input { padding: 8px 10px; font-size: 13px; border: 1.5px solid #e2e8f0; border-radius: 8px; outline: none; color: #0f172a; background: #fff; width: 100%; }
+ 
+.gen-btn { width: 100%; padding: 12px; font-size: 14px; font-weight: 700; color: #fff; background: #0f172a; border: none; border-radius: 11px; cursor: pointer; margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.copy-btn { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; font-size: 11.5px; font-weight: 700; border: none; border-radius: 7px; cursor: pointer; white-space: nowrap; flex-shrink: 0; background: #f0f4ff; color: #2563eb; }
+.copy-btn.copied { background: #ecfdf5; color: #059669; }
+ 
+/* Results */
+.batch-stats { display: flex; gap: 8px; margin: 10px 0; flex-wrap: wrap; }
+.stat-pill { font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 6px; }
+.stat-pill.ok { background: #ecfdf5; color: #059669; }
+.stat-pill.warn { background: #fffbeb; color: #d97706; }
+.stat-pill.err { background: #fef2f2; color: #dc2626; }
+.result-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.res-ok { background: #f8fafc; border-radius: 12px; padding: 14px; border: 1px solid #eef1f6; }
+.res-err { background: #fef2f2; border-radius: 12px; padding: 14px; border: 1px solid #fecaca; }
+.res-head { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+.badge { font-size: 11px; font-weight: 700; color: #2563eb; background: #eff6ff; padding: 2px 8px; border-radius: 5px; display: inline-block; }
+.warn-badge { font-size: 10px; color: #d97706; background: #fffbeb; padding: 2px 7px; border-radius: 5px; }
+.res-url { font-size: 12px; color: #94a3b8; margin-bottom: 8px; word-break: break-all; line-height: 1.4; }
+.res-err-text { font-size: 13px; color: #dc2626; font-weight: 600; margin-bottom: 8px; }
+.res-out { background: #fff; border-radius: 9px; padding: 9px 11px; border: 1px solid #e8ecf2; display: flex; align-items: flex-start; gap: 8px; }
+.res-out-text { font-size: 11px; color: #334155; word-break: break-all; line-height: 1.55; flex: 1; font-family: 'SF Mono', Consolas, monospace; }
+.brand-picker { display: flex; gap: 6px; align-items: center; margin-top: 6px; }
+.brand-picker select { flex: 1; padding: 7px 10px; font-size: 12px; border: 1.5px solid #e2e8f0; border-radius: 8px; background: #fff; }
+.brand-picker button { padding: 7px 12px; font-size: 12px; font-weight: 700; color: #fff; background: #2563eb; border: none; border-radius: 8px; cursor: pointer; }
+.action-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.action-row .copy-btn, .action-row .ghost-btn { padding: 8px 14px; font-size: 12px; }
+.ghost-btn { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; font-size: 11.5px; font-weight: 700; border: 1.5px solid #e2e8f0; border-radius: 7px; cursor: pointer; background: #fff; color: #64748b; }
+ 
+/* Panels */
+.panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.close-btn { background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px; display: flex; align-items: center; }
+.close-group { display: flex; gap: 6px; }
+.brand-list { max-height: 380px; overflow-y: auto; }
+.brand-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f3f5f8; gap: 10px; }
+.brand-name { font-size: 13px; font-weight: 650; }
+.brand-id { font-size: 11px; color: #cbd5e1; font-weight: 400; }
+.brand-domain { font-size: 11px; color: #94a3b8; margin-top: 1px; }
+.brand-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.dl-badge { font-size: 10px; font-weight: 700; color: #059669; background: #ecfdf5; padding: 2px 7px; border-radius: 5px; }
+.comm-text { font-size: 11px; color: #64748b; max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hist-list { max-height: 400px; overflow-y: auto; }
+.hist-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f3f5f8; }
+.hist-url { font-size: 12px; color: #64748b; margin: 4px 0 2px; word-break: break-all; line-height: 1.35; }
+.hist-time { font-size: 10px; color: #cbd5e1; }
+.setting-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid #f3f5f8; gap: 12px; }
+.setting-title { font-size: 13px; font-weight: 650; }
+.setting-desc { font-size: 11.5px; color: #94a3b8; margin-top: 2px; line-height: 1.5; }
+.setting-btn { display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px; font-size: 12px; font-weight: 700; color: #2563eb; background: #f0f4ff; border: none; border-radius: 8px; cursor: pointer; white-space: nowrap; }
+.setting-btn.danger { color: #dc2626; background: #fef2f2; }
+.setting-meta { margin-top: 14px; padding: 12px; background: #f8fafc; border-radius: 10px; font-size: 11.5px; color: #94a3b8; line-height: 1.7; font-family: 'SF Mono', Consolas, monospace; word-break: break-all; }
+.empty { font-size: 13px; color: #94a3b8; text-align: center; padding: 24px 0; }
+.hidden { display: none !important; }
+ 
+/* Toast */
+.toast-wrap { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 200; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+.toast { background: #0f172a; color: #fff; padding: 10px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; box-shadow: 0 4px 16px rgba(0,0,0,0.15); animation: toast-in 0.25s ease-out; max-width: 340px; }
+.toast.ok { background: #059669; }
+.toast.err { background: #dc2626; }
+.toast.warn { background: #d97706; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.icon { display: inline-flex; align-items: center; justify-content: center; }
 </style>
 </head>
 <body>
-
+ 
 <!-- ====== Setup Screen ====== -->
 <div id="setup-screen" class="setup-wrap">
   <div class="setup-card">
@@ -130,10 +147,10 @@
     </div>
     <div id="setup-error" class="error-box hidden"></div>
     <div id="setup-progress" class="progress-box hidden"></div>
-    <button id="setupBtn" class="btn-primary" onclick="handleSetup()">開始使用</button>
+    <button id="setupBtn" class="btn-primary">開始使用</button>
   </div>
 </div>
-
+ 
 <!-- ====== Main Screen ====== -->
 <div id="main-screen" class="hidden">
   <header class="hdr">
@@ -148,34 +165,40 @@
         </div>
       </div>
       <div class="hdr-actions">
-        <button class="hdr-btn" id="brandsBtn" onclick="togglePanel('brands')" title="品牌列表">
+        <button class="hdr-btn" data-panel="brands" title="品牌列表">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
         </button>
-        <button class="hdr-btn" id="historyBtn" onclick="togglePanel('history')" title="歷史記錄">
+        <button class="hdr-btn" data-panel="history" title="歷史記錄">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         </button>
-        <button class="hdr-btn" id="settingsBtn" onclick="togglePanel('settings')" title="設定">
+        <button class="hdr-btn" data-panel="settings" title="設定">
+          <span id="settingsDot" class="dot hidden"></span>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         </button>
       </div>
     </div>
+    <div id="loadBar" class="load-bar hidden">
+      <div class="load-bar-inner"><div class="load-bar-fill" id="loadBarFill" style="width:0%"></div></div>
+      <div class="load-bar-text"><span id="loadBarLeft"></span><span id="loadBarRight"></span></div>
+    </div>
   </header>
-
+ 
   <main class="main-content">
     <!-- Input Card -->
     <section class="card">
       <div class="card-top">
         <span class="card-label">商品網址</span>
-        <button class="mode-toggle" id="modeToggle" onclick="toggleBatchMode()">切換批次</button>
+        <button class="mode-toggle" id="modeToggle">切換批次</button>
       </div>
+ 
       <div id="singleInput">
-        <input type="url" id="urlInput" class="input-field" placeholder="貼上商品網址..." onkeydown="if(event.key==='Enter')handleGenerate()">
+        <input type="url" id="urlInput" class="input-field" placeholder="貼上商品網址...">
       </div>
       <div id="batchInput" class="hidden">
         <textarea id="batchTextarea" class="input-area" rows="4" placeholder="每行一個網址&#10;https://www.nike.com/tw/...&#10;https://www.adidas.com.tw/..."></textarea>
       </div>
-
-      <button class="sub-toggle" onclick="toggleSubIds()">
+ 
+      <button class="sub-toggle" id="subToggleBtn">
         <span>追蹤標籤（選填）</span>
         <svg id="subChevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
@@ -187,112 +210,211 @@
         <div><label class="sub-label">Sub ID 4</label><input class="sub-input" id="sub_subid_4" placeholder="Sub ID 4"></div>
         <div><label class="sub-label">Sub ID 5</label><input class="sub-input" id="sub_subid_5" placeholder="Sub ID 5"></div>
       </div>
-
-      <button class="gen-btn" onclick="handleGenerate()">
+ 
+      <button class="gen-btn" id="generateBtn">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
         <span>產生追蹤連結</span>
       </button>
     </section>
-
+ 
     <!-- Results -->
     <section class="card hidden" id="resultsCard">
-      <span class="card-label">產生結果</span>
+      <div class="card-top"><span class="card-label">產生結果</span></div>
+      <div id="batchStats" class="batch-stats hidden"></div>
       <div class="result-list" id="resultList"></div>
-      <div id="copyAllWrap" class="hidden" style="margin-top:10px"></div>
+      <div id="actionRow" class="action-row hidden"></div>
     </section>
-
+ 
     <!-- Brands Panel -->
     <section class="card hidden" id="brandsPanel">
       <div class="panel-head">
         <span class="card-label" id="brandsPanelTitle"></span>
-        <button class="close-btn" onclick="togglePanel('brands')">
+        <button class="close-btn" data-close="brands">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
-      <input class="input-field" id="brandSearchInput" placeholder="搜尋品牌名稱、網域或 ID..." oninput="renderBrands()" style="margin-bottom:8px;font-size:13px">
+      <input class="input-field" id="brandSearchInput" placeholder="搜尋品牌名稱、網域或 ID..." style="margin-bottom:8px;font-size:13px">
       <div class="brand-list" id="brandListContainer"></div>
     </section>
-
+ 
     <!-- History Panel -->
     <section class="card hidden" id="historyPanel">
       <div class="panel-head">
         <span class="card-label">轉換記錄</span>
         <div class="close-group">
-          <button class="close-btn" id="clearHistBtn" onclick="clearHistory()" title="清除全部">
+          <button class="close-btn" id="clearHistBtn" title="清除全部">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
           </button>
-          <button class="close-btn" onclick="togglePanel('history')">
+          <button class="close-btn" data-close="history">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
       </div>
+      <input class="input-field" id="histSearchInput" placeholder="搜尋歷史（品牌、網址）..." style="margin-bottom:8px;font-size:13px">
       <div class="hist-list" id="histListContainer"></div>
     </section>
-
+ 
     <!-- Settings Panel -->
     <section class="card hidden" id="settingsPanel">
       <div class="panel-head">
         <span class="card-label">設定</span>
-        <button class="close-btn" onclick="togglePanel('settings')">
+        <button class="close-btn" data-close="settings">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
+ 
       <div class="setting-item">
-        <div><div class="setting-title">重新載入品牌</div><div class="setting-desc">從 API 重新拉取最新品牌列表</div></div>
-        <button class="setting-btn" onclick="refreshOffers()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-          更新
-        </button>
+        <div style="flex:1">
+          <div class="setting-title">載入下一頁品牌</div>
+          <div class="setting-desc" id="loadNextDesc">立即拉取下一頁（受 API 冷卻時間限制）</div>
+        </div>
+        <button class="setting-btn" id="loadNextBtn">立即載入</button>
       </div>
+ 
       <div class="setting-item">
-        <div><div class="setting-title">重新設定</div><div class="setting-desc">清除所有資料並重新設定</div></div>
-        <button class="setting-btn danger" onclick="handleLogout()">重設</button>
+        <div style="flex:1">
+          <div class="setting-title">背景自動載入</div>
+          <div class="setting-desc">冷卻時間到自動補齊未載入的品牌</div>
+        </div>
+        <button class="setting-btn" id="autoLoadBtn">開啟</button>
       </div>
+ 
+      <div class="setting-item">
+        <div style="flex:1">
+          <div class="setting-title">完全重新載入</div>
+          <div class="setting-desc">清除快取重新拉所有品牌（耗時較久）</div>
+        </div>
+        <button class="setting-btn danger" id="refreshAllBtn">重新載入</button>
+      </div>
+ 
+      <div class="setting-item">
+        <div style="flex:1">
+          <div class="setting-title">重新設定</div>
+          <div class="setting-desc">清除所有本機資料並重新設定 API Key</div>
+        </div>
+        <button class="setting-btn danger" id="logoutBtn">重設</button>
+      </div>
+ 
       <div class="setting-meta" id="settingMeta"></div>
     </section>
   </main>
 </div>
-
+ 
+<div class="toast-wrap" id="toastWrap"></div>
+ 
 <script>
+(function () {
+"use strict";
+ 
 // ═══════════════════════════════════════
-//  Config
+// Config
 // ═══════════════════════════════════════
 const WORKER_URL = "https://small-tooth-29d5.wcwaiapp.workers.dev";
-const STORE_CONFIG = "affone_config";
-const STORE_OFFERS = "affone_offers";
-const STORE_HISTORY = "affone_history";
-const STORE_SUBIDS = "affone_subids";
-
+const HISTORY_LIMIT = 50;
+const POLL_INTERVAL_MS = 30 * 1000; // 30 秒檢查一次冷卻
+const STORE = {
+  CONFIG: "affone_config",
+  HISTORY: "affone_history",
+  SUBIDS: "affone_subids",
+  AUTOLOAD: "affone_autoload",
+  CACHE_META: "affone_cache_meta", // 從 Worker 取得的最後狀態（含 offers）
+};
+ 
 // ═══════════════════════════════════════
-//  State
+// State
 // ═══════════════════════════════════════
-let offers = [];
-let config = null;
-let history = [];
-let batchMode = false;
-let currentPanel = null;
-
+const state = {
+  offers: [],
+  meta: {
+    totalCached: 0,
+    expectedTotal: 0,
+    isFullyLoaded: false,
+    updatedAt: 0,
+    nextFetchAllowedAt: 0,
+    cooldownRemainingMs: 0,
+  },
+  config: null,        // { apiKey }
+  history: [],
+  batchMode: false,
+  currentPanel: null,
+  autoLoadOn: false,
+  isFetching: false,
+  pollTimer: null,
+  countdownTimer: null,
+};
+ 
 // ═══════════════════════════════════════
-//  Storage
+// Storage helper
 // ═══════════════════════════════════════
-function storeGet(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }
-function storeSet(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
-function storeRemove(k) { localStorage.removeItem(k); }
-
+const Storage = {
+  get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { console.warn("localStorage 寫入失敗", e); } },
+  del(k) { localStorage.removeItem(k); },
+};
+ 
 // ═══════════════════════════════════════
-//  Helpers
+// API client
+// ═══════════════════════════════════════
+const Api = {
+  async _req(path, opts = {}) {
+    const res = await fetch(WORKER_URL + path, opts);
+    let json = {};
+    try { json = await res.json(); } catch {}
+    if (!res.ok) throw new Error(json.error || "請求失敗 (" + res.status + ")");
+    return json;
+  },
+  getOffers(apiKey) {
+    return this._req("/offers?api_key=" + encodeURIComponent(apiKey));
+  },
+  getStatus(apiKey) {
+    return this._req("/offers/status?api_key=" + encodeURIComponent(apiKey));
+  },
+  fetchNext(apiKey) {
+    return this._req("/offers/fetch-next", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ api_key: apiKey }),
+    });
+  },
+  refreshAll(apiKey) {
+    return this._req("/offers/refresh-all", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ api_key: apiKey }),
+    });
+  },
+};
+ 
+// ═══════════════════════════════════════
+// Pure helpers
 // ═══════════════════════════════════════
 function extractDomain(url) {
-  try { return new URL(url.startsWith("http") ? url : "https://" + url).hostname.replace(/^www\./, "").toLowerCase(); }
-  catch { return ""; }
+  if (!url) return "";
+  try {
+    return new URL(url.startsWith("http") ? url : "https://" + url).hostname.replace(/^www\./, "").toLowerCase();
+  } catch { return ""; }
 }
-
+ 
 function doubleEncode(url) {
   return encodeURIComponent(encodeURIComponent(url));
 }
-
-function buildTrackingUrl(baseUrl, targetUrl, subIds) {
-  let result = baseUrl;
+ 
+function parseOffers(raw) {
+  return (raw || []).filter(o => o.default_tracking_url).map(o => ({
+    id: o.id,
+    name: o.name || "Brand #" + o.id,
+    previewUrl: o.preview_url || "",
+    domain: extractDomain(o.preview_url || ""),
+    trackingUrl: o.default_tracking_url,
+    deeplink: !!o.deeplink,
+    commission: o.commission_range || "",
+    conversionType: o.conversion_type || "",
+    categories: o.categories || [],
+  }));
+}
+ 
+function buildTrackingUrl(offer, targetUrl, subIds) {
+  let result = offer.trackingUrl;
   const params = [];
   if (subIds.aff_uniq_id) params.push("aff_uniq_id=" + encodeURIComponent(subIds.aff_uniq_id));
   for (let i = 1; i <= 5; i++) {
@@ -303,369 +425,816 @@ function buildTrackingUrl(baseUrl, targetUrl, subIds) {
   if (targetUrl) result += (params.length ? "&" : "?") + "t=" + doubleEncode(targetUrl);
   return result;
 }
-
-function parseOffers(raw) {
-  return raw.filter(o => o.default_tracking_url).map(o => ({
-    id: o.id,
-    name: o.name || "Brand #" + o.id,
-    previewUrl: o.preview_url || "",
-    domain: extractDomain(o.preview_url || ""),
-    trackingUrl: o.default_tracking_url,
-    deeplink: o.deeplink || false,
-    commission: o.commission_range || "",
-    conversionType: o.conversion_type || "",
-    categories: o.categories || [],
-  }));
-}
-
-function getSubIds() {
-  const s = {};
-  s.aff_uniq_id = document.getElementById("sub_aff_uniq_id").value.trim();
-  for (let i = 1; i <= 5; i++) s["subid_" + i] = document.getElementById("sub_subid_" + i).value.trim();
-  storeSet(STORE_SUBIDS, s);
-  return s;
-}
-
-function loadSubIds() {
-  const s = storeGet(STORE_SUBIDS);
-  if (!s) return;
-  if (s.aff_uniq_id) document.getElementById("sub_aff_uniq_id").value = s.aff_uniq_id;
-  for (let i = 1; i <= 5; i++) {
-    if (s["subid_" + i]) document.getElementById("sub_subid_" + i).value = s["subid_" + i];
-  }
-}
-
+ 
 function matchOffer(inputUrl) {
   const d = extractDomain(inputUrl);
   if (!d) return null;
-  return offers.find(o => o.domain && (d === o.domain || d.endsWith("." + o.domain) || o.domain.endsWith("." + d)));
+  return state.offers.find(o => o.domain && (
+    d === o.domain ||
+    d.endsWith("." + o.domain) ||
+    o.domain.endsWith("." + d)
+  )) || null;
 }
-
-function copyText(text, btn) {
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(text);
-  } else {
-    const ta = document.createElement("textarea");
-    ta.value = text;
-    ta.style.cssText = "position:fixed;left:-9999px;opacity:0";
-    document.body.appendChild(ta);
-    ta.focus(); ta.select();
-    try { document.execCommand("copy"); } catch {}
-    document.body.removeChild(ta);
-  }
-  if (btn) {
-    const orig = btn.innerHTML;
-    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> 已複製';
-    btn.classList.add("copied");
-    setTimeout(() => { btn.innerHTML = orig; btn.classList.remove("copied"); }, 1400);
-  }
+ 
+// 找最相近的品牌（用網域相似度）
+function suggestSimilarOffers(inputUrl, limit = 3) {
+  const d = extractDomain(inputUrl);
+  if (!d) return [];
+  const tokens = d.replace(/\.(com|tw|com\.tw|net|org|io|co|jp|us)$/g, "").split(/[.\-]/).filter(Boolean);
+  const scored = state.offers
+    .filter(o => o.domain)
+    .map(o => {
+      let score = 0;
+      for (const t of tokens) if (t && o.domain.includes(t)) score += t.length;
+      return { o, score };
+    })
+    .filter(x => x.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map(x => x.o);
+  return scored;
 }
-
-function escapeHtml(str) {
-  return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+ 
+function escapeHtml(s) {
+  if (s == null) return "";
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;")
+    .replace(/`/g, "&#96;");
 }
-
+ 
+function formatTime(ts) {
+  if (!ts) return "—";
+  try { return new Date(ts).toLocaleString("zh-TW"); } catch { return "—"; }
+}
+ 
+function formatCooldown(ms) {
+  if (ms <= 0) return "已可載入";
+  const totalSec = Math.ceil(ms / 1000);
+  const m = Math.floor(totalSec / 60);
+  const s = totalSec % 60;
+  return m + " 分 " + String(s).padStart(2, "0") + " 秒";
+}
+ 
 // ═══════════════════════════════════════
-//  Setup
+// Clipboard
 // ═══════════════════════════════════════
-async function handleSetup() {
-  const apiKey = document.getElementById("apiKeyInput").value.trim();
-  if (!apiKey) { showSetupError("請輸入 API Key"); return; }
-
-  const btn = document.getElementById("setupBtn");
-  btn.disabled = true;
-  btn.textContent = "載入中...";
-  hideSetupError();
-  showSetupProgress("正在載入品牌資料...");
-
+async function copyText(text, btn) {
   try {
-    const res = await fetch(WORKER_URL + "/offers?api_key=" + encodeURIComponent(apiKey));
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.error || "連線失敗 (" + res.status + ")");
-    }
-    showSetupProgress("正在解析品牌資料...");
-    const json = await res.json();
-    const parsed = parseOffers(json.data || []);
-    if (parsed.length === 0) throw new Error("沒有找到已申請的品牌，請確認 API Key 是否正確");
-
-    config = { apiKey };
-    offers = parsed;
-    storeSet(STORE_CONFIG, config);
-    storeSet(STORE_OFFERS, { offers, total: json.total, updatedAt: Date.now() });
-    history = storeGet(STORE_HISTORY) || [];
-
-    showMainScreen();
-  } catch (e) {
-    showSetupError(e.message || "連線失敗，請稍後再試");
-  } finally {
-    btn.disabled = false;
-    btn.textContent = "開始使用";
-    hideSetupProgress();
-  }
-}
-
-function showSetupError(msg) { const el = document.getElementById("setup-error"); el.textContent = msg; el.classList.remove("hidden"); }
-function hideSetupError() { document.getElementById("setup-error").classList.add("hidden"); }
-function showSetupProgress(msg) { const el = document.getElementById("setup-progress"); el.textContent = msg; el.classList.remove("hidden"); }
-function hideSetupProgress() { document.getElementById("setup-progress").classList.add("hidden"); }
-
-// ═══════════════════════════════════════
-//  Main Screen
-// ═══════════════════════════════════════
-function showMainScreen() {
-  document.getElementById("setup-screen").classList.add("hidden");
-  document.getElementById("main-screen").classList.remove("hidden");
-  document.getElementById("brandCount").textContent = offers.length + " 個品牌";
-  loadSubIds();
-  updateSettingMeta();
-}
-
-function showSetupScreen() {
-  document.getElementById("main-screen").classList.add("hidden");
-  document.getElementById("setup-screen").classList.remove("hidden");
-  document.getElementById("apiKeyInput").value = config?.apiKey || "";
-}
-
-// ═══════════════════════════════════════
-//  Generate
-// ═══════════════════════════════════════
-function handleGenerate() {
-  const subIds = getSubIds();
-  let results = [];
-
-  if (batchMode) {
-    const urls = document.getElementById("batchTextarea").value.split("\n").map(s => s.trim()).filter(Boolean);
-    if (!urls.length) return;
-    results = urls.map(u => genOne(u, subIds));
-  } else {
-    const url = document.getElementById("urlInput").value.trim();
-    if (!url) return;
-    results = [genOne(url, subIds)];
-  }
-
-  renderResults(results);
-
-  // Save history
-  const ok = results.filter(r => !r.err && r.out);
-  if (ok.length) {
-    const newItems = ok.map(r => ({ url: r.url, out: r.out, brand: r.offer?.name, ts: Date.now() }));
-    history = [...newItems, ...history].slice(0, 50);
-    storeSet(STORE_HISTORY, history);
-  }
-}
-
-function genOne(inputUrl, subIds) {
-  const offer = matchOffer(inputUrl);
-  if (!offer) return { url: inputUrl, err: "找不到匹配的品牌", offer: null, out: "" };
-  if (!offer.deeplink) return { url: inputUrl, err: null, offer, out: offer.trackingUrl, warn: "不支援自訂連結，使用預設追蹤連結" };
-  return { url: inputUrl, err: null, offer, out: buildTrackingUrl(offer.trackingUrl, inputUrl, subIds) };
-}
-
-function renderResults(results) {
-  const card = document.getElementById("resultsCard");
-  const list = document.getElementById("resultList");
-  const copyAllWrap = document.getElementById("copyAllWrap");
-  card.classList.remove("hidden");
-
-  let html = "";
-  results.forEach((r, i) => {
-    if (r.err) {
-      html += '<div class="res-err"><p class="res-url">' + escapeHtml(r.url) + '</p><p class="res-err-text">' + escapeHtml(r.err) + '</p></div>';
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
     } else {
-      html += '<div class="res-ok">';
-      html += '<div class="res-head"><span class="badge">' + escapeHtml(r.offer.name) + '</span>';
-      if (r.warn) html += '<span class="warn-badge">' + escapeHtml(r.warn) + '</span>';
-      html += '</div>';
-      html += '<p class="res-url">' + escapeHtml(r.url) + '</p>';
-      html += '<div class="res-out"><p class="res-out-text">' + escapeHtml(r.out) + '</p>';
-      html += '<button class="copy-btn" onclick="copyText(\'' + escapeHtml(r.out).replace(/'/g, "\\'") + '\', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 複製</button>';
-      html += '</div></div>';
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.cssText = "position:fixed;left:-9999px;opacity:0";
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
     }
-  });
-  list.innerHTML = html;
-
-  const okResults = results.filter(r => !r.err);
-  if (okResults.length > 1) {
-    const allUrls = okResults.map(r => r.out).join("\n");
-    copyAllWrap.classList.remove("hidden");
-    copyAllWrap.innerHTML = '<button class="copy-btn" onclick="copyText(`' + allUrls.replace(/`/g, "\\`") + '`, this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 複製全部連結</button>';
-  } else {
-    copyAllWrap.classList.add("hidden");
+    if (btn) {
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> 已複製';
+      btn.classList.add("copied");
+      setTimeout(() => { btn.innerHTML = orig; btn.classList.remove("copied"); }, 1400);
+    } else {
+      Toast.show("已複製到剪貼簿", "ok");
+    }
+  } catch {
+    Toast.show("複製失敗，請手動複製", "err");
   }
-
-  // Scroll to results
-  card.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
-
+ 
 // ═══════════════════════════════════════
-//  Batch Mode
+// Toast
 // ═══════════════════════════════════════
-function toggleBatchMode() {
-  batchMode = !batchMode;
-  document.getElementById("singleInput").classList.toggle("hidden", batchMode);
-  document.getElementById("batchInput").classList.toggle("hidden", !batchMode);
-  document.getElementById("modeToggle").textContent = batchMode ? "切換單一" : "切換批次";
+const Toast = {
+  show(msg, type) {
+    const wrap = document.getElementById("toastWrap");
+    const el = document.createElement("div");
+    el.className = "toast" + (type ? " " + type : "");
+    el.textContent = msg;
+    wrap.appendChild(el);
+    setTimeout(() => { el.style.opacity = "0"; el.style.transition = "opacity 0.3s"; }, 2200);
+    setTimeout(() => el.remove(), 2600);
+  },
+};
+ 
+// ═══════════════════════════════════════
+// Setup screen
+// ═══════════════════════════════════════
+const Setup = {
+  showError(msg) {
+    const el = document.getElementById("setup-error");
+    el.textContent = msg; el.classList.remove("hidden");
+  },
+  hideError() { document.getElementById("setup-error").classList.add("hidden"); },
+  showProgress(msg) {
+    const el = document.getElementById("setup-progress");
+    el.textContent = msg; el.classList.remove("hidden");
+  },
+  hideProgress() { document.getElementById("setup-progress").classList.add("hidden"); },
+  show() {
+    document.getElementById("main-screen").classList.add("hidden");
+    document.getElementById("setup-screen").classList.remove("hidden");
+    document.getElementById("apiKeyInput").value = state.config?.apiKey || "";
+  },
+  async handleSubmit() {
+    const apiKey = document.getElementById("apiKeyInput").value.trim();
+    if (!apiKey) { this.showError("請輸入 API Key"); return; }
+ 
+    const btn = document.getElementById("setupBtn");
+    btn.disabled = true;
+    btn.textContent = "載入中...";
+    this.hideError();
+    this.showProgress("正在連線...");
+ 
+    try {
+      // 先試取現有快取
+      let json = await Api.getOffers(apiKey);
+ 
+      // 若無資料，主動拉第一頁
+      if (!json.data || json.data.length === 0) {
+        this.showProgress("正在拉取品牌資料（第一頁）...");
+        try {
+          await Api.fetchNext(apiKey);
+        } catch (e) {
+          // 若被冷卻擋下，看看是否仍能拿到部分資料
+          json = await Api.getOffers(apiKey);
+          if (!json.data || json.data.length === 0) {
+            throw new Error("無法載入品牌資料：" + e.message);
+          }
+        }
+        json = await Api.getOffers(apiKey);
+      }
+ 
+      state.config = { apiKey };
+      state.offers = parseOffers(json.data);
+      state.meta = extractMeta(json);
+ 
+      Storage.set(STORE.CONFIG, state.config);
+      Storage.set(STORE.CACHE_META, { offers: json.data, meta: state.meta, ts: Date.now() });
+      state.history = Storage.get(STORE.HISTORY) || [];
+      state.autoLoadOn = Storage.get(STORE.AUTOLOAD) !== false; // 預設開啟
+ 
+      Main.show();
+    } catch (e) {
+      this.showError(e.message || "連線失敗，請稍後再試");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "開始使用";
+      this.hideProgress();
+    }
+  },
+};
+ 
+function extractMeta(json) {
+  return {
+    totalCached: json.totalCached || (json.data ? json.data.length : 0),
+    expectedTotal: json.expectedTotal || 0,
+    isFullyLoaded: !!json.isFullyLoaded,
+    updatedAt: json.updatedAt || 0,
+    nextFetchAllowedAt: json.nextFetchAllowedAt || 0,
+    cooldownRemainingMs: json.cooldownRemainingMs || 0,
+    pagesCached: json.pagesCached || [],
+    perPage: json.perPage || 200,
+  };
 }
-
+ 
 // ═══════════════════════════════════════
-//  Sub IDs
+// Main screen
+// ═══════════════════════════════════════
+const Main = {
+  show() {
+    document.getElementById("setup-screen").classList.add("hidden");
+    document.getElementById("main-screen").classList.remove("hidden");
+    this.renderHeader();
+    this.renderLoadBar();
+    SubIds.load();
+    Polling.start();
+    Countdown.start();
+  },
+  renderHeader() {
+    const meta = state.meta;
+    const expected = meta.expectedTotal || state.offers.length;
+    let txt = state.offers.length + " 個品牌";
+    if (!meta.isFullyLoaded && expected > state.offers.length) {
+      txt += " · 載入中 " + state.offers.length + "/" + expected;
+    }
+    document.getElementById("brandCount").textContent = txt;
+    document.getElementById("settingsDot").classList.toggle("hidden", meta.isFullyLoaded);
+  },
+  renderLoadBar() {
+    const bar = document.getElementById("loadBar");
+    const meta = state.meta;
+    if (meta.isFullyLoaded || state.offers.length === 0) {
+      bar.classList.add("hidden");
+      return;
+    }
+    const expected = meta.expectedTotal || state.offers.length;
+    const pct = expected ? Math.round((state.offers.length / expected) * 100) : 0;
+    bar.classList.remove("hidden");
+    document.getElementById("loadBarFill").style.width = Math.min(100, pct) + "%";
+    document.getElementById("loadBarLeft").textContent = "已載入 " + state.offers.length + " / " + expected;
+    const cd = meta.cooldownRemainingMs;
+    document.getElementById("loadBarRight").textContent = cd > 0 ? "下次自動補載 " + formatCooldown(cd) : "可立即載入";
+  },
+};
+ 
+// ═══════════════════════════════════════
+// Sub IDs
+// ═══════════════════════════════════════
+const SubIds = {
+  ids: ["aff_uniq_id", "subid_1", "subid_2", "subid_3", "subid_4", "subid_5"],
+  get() {
+    const s = {};
+    this.ids.forEach(k => { s[k] = document.getElementById("sub_" + k).value.trim(); });
+    Storage.set(STORE.SUBIDS, s);
+    return s;
+  },
+  load() {
+    const s = Storage.get(STORE.SUBIDS);
+    if (!s) return;
+    this.ids.forEach(k => {
+      if (s[k]) document.getElementById("sub_" + k).value = s[k];
+    });
+  },
+};
+ 
+// ═══════════════════════════════════════
+// Generate links
+// ═══════════════════════════════════════
+const Generator = {
+  generate() {
+    const subIds = SubIds.get();
+    const urls = state.batchMode
+      ? document.getElementById("batchTextarea").value.split("\n").map(s => s.trim()).filter(Boolean)
+      : [document.getElementById("urlInput").value.trim()].filter(Boolean);
+ 
+    if (!urls.length) { Toast.show("請輸入網址", "warn"); return; }
+ 
+    const results = urls.map(u => this.genOne(u, subIds));
+    Results.render(results, subIds);
+ 
+    // 存歷史
+    const ok = results.filter(r => !r.err && r.out);
+    if (ok.length) {
+      const newItems = ok.map(r => ({ url: r.url, out: r.out, brand: r.offer?.name, ts: Date.now() }));
+      state.history = [...newItems, ...state.history].slice(0, HISTORY_LIMIT);
+      Storage.set(STORE.HISTORY, state.history);
+    }
+  },
+  genOne(inputUrl, subIds) {
+    const offer = matchOffer(inputUrl);
+    if (!offer) {
+      const similar = suggestSimilarOffers(inputUrl);
+      return { url: inputUrl, err: "找不到匹配的品牌", offer: null, out: "", similar };
+    }
+    if (!offer.deeplink) {
+      return {
+        url: inputUrl, err: null, offer,
+        out: offer.trackingUrl,
+        warn: "此品牌不支援自訂連結，使用預設追蹤連結",
+      };
+    }
+    return { url: inputUrl, err: null, offer, out: buildTrackingUrl(offer, inputUrl, subIds) };
+  },
+};
+ 
+// ═══════════════════════════════════════
+// Results renderer
+// ═══════════════════════════════════════
+const Results = {
+  lastResults: [],
+  lastSubIds: {},
+  render(results, subIds) {
+    this.lastResults = results;
+    this.lastSubIds = subIds;
+    const card = document.getElementById("resultsCard");
+    const list = document.getElementById("resultList");
+    const stats = document.getElementById("batchStats");
+    const actionRow = document.getElementById("actionRow");
+    card.classList.remove("hidden");
+ 
+    // Stats（批次模式時顯示）
+    if (results.length > 1) {
+      const ok = results.filter(r => !r.err).length;
+      const err = results.filter(r => r.err).length;
+      const warn = results.filter(r => !r.err && r.warn).length;
+      stats.classList.remove("hidden");
+      stats.innerHTML =
+        '<span class="stat-pill ok">成功 ' + ok + '</span>' +
+        (warn ? '<span class="stat-pill warn">使用預設 ' + warn + '</span>' : "") +
+        (err ? '<span class="stat-pill err">未匹配 ' + err + '</span>' : "");
+    } else {
+      stats.classList.add("hidden");
+    }
+ 
+    // Result items
+    list.innerHTML = results.map((r, i) => this.renderOne(r, i)).join("");
+ 
+    // Action row (batch mode)
+    const okResults = results.filter(r => !r.err && r.out);
+    if (okResults.length > 1) {
+      const allUrls = okResults.map(r => r.out).join("\n");
+      actionRow.classList.remove("hidden");
+      actionRow.innerHTML =
+        '<button class="copy-btn" data-action="copy-all">' +
+        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>' +
+        '複製全部連結 (' + okResults.length + ')</button>' +
+        '<button class="ghost-btn" data-action="export-csv">' +
+        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
+        '匯出 CSV</button>';
+      actionRow.dataset.allUrls = allUrls;
+    } else {
+      actionRow.classList.add("hidden");
+      actionRow.innerHTML = "";
+    }
+ 
+    card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  },
+  renderOne(r, i) {
+    if (r.err) {
+      let html = '<div class="res-err" data-idx="' + i + '">';
+      html += '<p class="res-url">' + escapeHtml(r.url) + '</p>';
+      html += '<p class="res-err-text">' + escapeHtml(r.err) + '</p>';
+      // 相似品牌建議
+      const opts = (r.similar || []).map(o =>
+        '<option value="' + escapeHtml(o.id) + '">' + escapeHtml(o.name) + ' (' + escapeHtml(o.domain) + ')</option>'
+      ).join("");
+      const otherOpts = state.offers
+        .filter(o => !(r.similar || []).find(s => s.id === o.id))
+        .slice(0, 200)
+        .map(o => '<option value="' + escapeHtml(o.id) + '">' + escapeHtml(o.name) + ' (' + escapeHtml(o.domain) + ')</option>')
+        .join("");
+      html += '<div class="brand-picker">';
+      html += '<select data-idx="' + i + '" class="manual-brand">';
+      html += '<option value="">— 手動指定品牌 —</option>';
+      if (opts) html += '<optgroup label="可能相關">' + opts + '</optgroup>';
+      if (otherOpts) html += '<optgroup label="所有品牌">' + otherOpts + '</optgroup>';
+      html += '</select>';
+      html += '<button data-action="manual-gen" data-idx="' + i + '">套用</button>';
+      html += '</div></div>';
+      return html;
+    }
+ 
+    let html = '<div class="res-ok">';
+    html += '<div class="res-head"><span class="badge">' + escapeHtml(r.offer.name) + '</span>';
+    if (r.warn) html += '<span class="warn-badge">' + escapeHtml(r.warn) + '</span>';
+    html += '</div>';
+    html += '<p class="res-url">' + escapeHtml(r.url) + '</p>';
+    html += '<div class="res-out"><p class="res-out-text">' + escapeHtml(r.out) + '</p>';
+    html += '<button class="copy-btn" data-action="copy" data-text="' + escapeHtml(r.out) + '">';
+    html += '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+    html += '複製</button>';
+    html += '</div></div>';
+    return html;
+  },
+  manualApply(idx, offerId) {
+    const r = this.lastResults[idx];
+    if (!r || !offerId) return;
+    const offer = state.offers.find(o => String(o.id) === String(offerId));
+    if (!offer) return;
+    let out;
+    if (!offer.deeplink) {
+      this.lastResults[idx] = { ...r, err: null, offer, out: offer.trackingUrl, warn: "此品牌不支援自訂連結，使用預設追蹤連結" };
+    } else {
+      out = buildTrackingUrl(offer, r.url, this.lastSubIds);
+      this.lastResults[idx] = { ...r, err: null, offer, out };
+    }
+    this.render(this.lastResults, this.lastSubIds);
+ 
+    // 補存歷史
+    const item = this.lastResults[idx];
+    if (item.out) {
+      state.history = [{ url: item.url, out: item.out, brand: item.offer?.name, ts: Date.now() }, ...state.history].slice(0, HISTORY_LIMIT);
+      Storage.set(STORE.HISTORY, state.history);
+    }
+  },
+  exportCsv() {
+    const ok = this.lastResults.filter(r => !r.err && r.out);
+    if (!ok.length) return;
+    const rows = [["原始網址", "品牌", "追蹤連結", "備註"]];
+    ok.forEach(r => rows.push([
+      r.url, r.offer?.name || "", r.out, r.warn || ""
+    ]));
+    const csv = rows.map(row => row.map(cell => {
+      const s = String(cell ?? "");
+      return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+    }).join(",")).join("\n");
+    const blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "affiliate-links-" + new Date().toISOString().slice(0, 19).replace(/[T:]/g, "-") + ".csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    Toast.show("已匯出 " + ok.length + " 筆", "ok");
+  },
+};
+ 
+// ═══════════════════════════════════════
+// Batch mode
+// ═══════════════════════════════════════
+function toggleBatchMode(force) {
+  state.batchMode = force !== undefined ? force : !state.batchMode;
+  document.getElementById("singleInput").classList.toggle("hidden", state.batchMode);
+  document.getElementById("batchInput").classList.toggle("hidden", !state.batchMode);
+  document.getElementById("modeToggle").textContent = state.batchMode ? "切換單一" : "切換批次";
+}
+ 
+// 智慧偵測：貼上多行時自動切批次模式
+function autoDetectBatch(text) {
+  const lines = text.split("\n").map(s => s.trim()).filter(Boolean);
+  if (!state.batchMode && lines.length > 1) {
+    toggleBatchMode(true);
+    document.getElementById("batchTextarea").value = text;
+    document.getElementById("urlInput").value = "";
+    Toast.show("已自動切換為批次模式", "ok");
+  }
+}
+ 
+// ═══════════════════════════════════════
+// Sub IDs toggle
 // ═══════════════════════════════════════
 function toggleSubIds() {
   const section = document.getElementById("subIdSection");
   const chev = document.getElementById("subChevron");
   section.classList.toggle("hidden");
-  if (section.classList.contains("hidden")) {
-    chev.innerHTML = '<polyline points="6 9 12 15 18 9"/>';
-  } else {
-    chev.innerHTML = '<polyline points="18 15 12 9 6 15"/>';
-  }
+  chev.innerHTML = section.classList.contains("hidden")
+    ? '<polyline points="6 9 12 15 18 9"/>'
+    : '<polyline points="18 15 12 9 6 15"/>';
 }
-
+ 
 // ═══════════════════════════════════════
-//  Panels
+// Panels
 // ═══════════════════════════════════════
 function togglePanel(name) {
   const panels = { brands: "brandsPanel", history: "historyPanel", settings: "settingsPanel" };
-  const btns = { brands: "brandsBtn", history: "historyBtn", settings: "settingsBtn" };
-
-  if (currentPanel === name) {
+  const btns = document.querySelectorAll(".hdr-btn[data-panel]");
+  if (state.currentPanel === name) {
     document.getElementById(panels[name]).classList.add("hidden");
-    document.getElementById(btns[name]).classList.remove("active");
-    currentPanel = null;
+    btns.forEach(b => { if (b.dataset.panel === name) b.classList.remove("active"); });
+    state.currentPanel = null;
     return;
   }
-
-  // Close current
-  if (currentPanel) {
-    document.getElementById(panels[currentPanel]).classList.add("hidden");
-    document.getElementById(btns[currentPanel]).classList.remove("active");
+  if (state.currentPanel) {
+    document.getElementById(panels[state.currentPanel]).classList.add("hidden");
+    btns.forEach(b => { if (b.dataset.panel === state.currentPanel) b.classList.remove("active"); });
   }
-
-  currentPanel = name;
+  state.currentPanel = name;
   document.getElementById(panels[name]).classList.remove("hidden");
-  document.getElementById(btns[name]).classList.add("active");
-
-  if (name === "brands") renderBrands();
-  if (name === "history") renderHistory();
-  if (name === "settings") updateSettingMeta();
+  btns.forEach(b => { if (b.dataset.panel === name) b.classList.add("active"); });
+ 
+  if (name === "brands") Brands.render();
+  if (name === "history") History.render();
+  if (name === "settings") Settings.update();
 }
-
+ 
 // ═══════════════════════════════════════
-//  Brands
+// Brands panel
 // ═══════════════════════════════════════
-function renderBrands() {
-  const q = document.getElementById("brandSearchInput").value.toLowerCase();
-  const filtered = q
-    ? offers.filter(o => o.name.toLowerCase().includes(q) || o.domain.includes(q) || String(o.id).includes(q))
-    : offers;
-
-  document.getElementById("brandsPanelTitle").textContent = "已申請品牌（" + offers.length + "）";
-
-  if (filtered.length === 0) {
-    document.getElementById("brandListContainer").innerHTML = '<p class="empty">找不到匹配的品牌</p>';
-    return;
-  }
-
-  let html = "";
-  filtered.forEach(o => {
-    html += '<div class="brand-item"><div style="flex:1;min-width:0">';
-    html += '<div class="brand-name">' + escapeHtml(o.name) + ' <span class="brand-id">#' + o.id + '</span></div>';
-    html += '<div class="brand-domain">' + (o.domain || "—") + '</div></div>';
-    html += '<div class="brand-right">';
-    if (o.deeplink) html += '<span class="dl-badge">Deeplink</span>';
-    if (o.commission) html += '<span class="comm-text">' + escapeHtml(o.commission) + '</span>';
-    html += '</div></div>';
-  });
-  document.getElementById("brandListContainer").innerHTML = html;
-}
-
+const Brands = {
+  render() {
+    const q = document.getElementById("brandSearchInput").value.trim().toLowerCase();
+    const filtered = q
+      ? state.offers.filter(o =>
+          o.name.toLowerCase().includes(q) ||
+          o.domain.includes(q) ||
+          String(o.id).includes(q))
+      : state.offers;
+ 
+    document.getElementById("brandsPanelTitle").textContent =
+      "已申請品牌（" + state.offers.length + (state.meta.expectedTotal ? "/" + state.meta.expectedTotal : "") + "）";
+ 
+    const container = document.getElementById("brandListContainer");
+    if (!filtered.length) {
+      container.innerHTML = '<p class="empty">找不到匹配的品牌</p>';
+      return;
+    }
+    container.innerHTML = filtered.slice(0, 500).map(o => {
+      let html = '<div class="brand-item"><div style="flex:1;min-width:0">';
+      html += '<div class="brand-name">' + escapeHtml(o.name) + ' <span class="brand-id">#' + escapeHtml(o.id) + '</span></div>';
+      html += '<div class="brand-domain">' + escapeHtml(o.domain || "—") + '</div></div>';
+      html += '<div class="brand-right">';
+      if (o.deeplink) html += '<span class="dl-badge">Deeplink</span>';
+      if (o.commission) html += '<span class="comm-text">' + escapeHtml(o.commission) + '</span>';
+      html += '</div></div>';
+      return html;
+    }).join("") + (filtered.length > 500 ? '<p class="empty">… 還有 ' + (filtered.length - 500) + ' 個（請用搜尋縮小範圍）</p>' : "");
+  },
+};
+ 
 // ═══════════════════════════════════════
-//  History
+// History panel
 // ═══════════════════════════════════════
-function renderHistory() {
-  const container = document.getElementById("histListContainer");
-  document.getElementById("clearHistBtn").classList.toggle("hidden", history.length === 0);
-
-  if (history.length === 0) {
-    container.innerHTML = '<p class="empty">尚無記錄</p>';
-    return;
-  }
-
-  let html = "";
-  history.forEach(h => {
-    html += '<div class="hist-item"><div style="flex:1;min-width:0">';
-    html += '<span class="badge">' + escapeHtml(h.brand || "") + '</span>';
-    html += '<p class="hist-url">' + escapeHtml(h.url) + '</p>';
-    html += '<p class="hist-time">' + new Date(h.ts).toLocaleString("zh-TW") + '</p>';
-    html += '</div>';
-    html += '<button class="copy-btn" onclick="copyText(\'' + escapeHtml(h.out).replace(/'/g, "\\'") + '\', this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 複製</button>';
-    html += '</div>';
-  });
-  container.innerHTML = html;
-}
-
-function clearHistory() {
-  history = [];
-  storeSet(STORE_HISTORY, []);
-  renderHistory();
-}
-
+const History = {
+  render() {
+    const q = document.getElementById("histSearchInput").value.trim().toLowerCase();
+    const items = q
+      ? state.history.filter(h =>
+          (h.brand || "").toLowerCase().includes(q) ||
+          (h.url || "").toLowerCase().includes(q))
+      : state.history;
+ 
+    document.getElementById("clearHistBtn").classList.toggle("hidden", state.history.length === 0);
+    const container = document.getElementById("histListContainer");
+    if (!items.length) {
+      container.innerHTML = '<p class="empty">' + (state.history.length === 0 ? "尚無記錄" : "找不到匹配的記錄") + '</p>';
+      return;
+    }
+    container.innerHTML = items.map(h =>
+      '<div class="hist-item"><div style="flex:1;min-width:0">' +
+      '<span class="badge">' + escapeHtml(h.brand || "") + '</span>' +
+      '<p class="hist-url">' + escapeHtml(h.url) + '</p>' +
+      '<p class="hist-time">' + escapeHtml(formatTime(h.ts)) + '</p>' +
+      '</div>' +
+      '<button class="copy-btn" data-action="copy" data-text="' + escapeHtml(h.out) + '">' +
+      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>' +
+      '複製</button>' +
+      '</div>'
+    ).join("");
+  },
+  clear() {
+    if (!confirm("確定要清除所有歷史記錄嗎？")) return;
+    state.history = [];
+    Storage.set(STORE.HISTORY, []);
+    this.render();
+    Toast.show("已清除歷史記錄", "ok");
+  },
+};
+ 
 // ═══════════════════════════════════════
-//  Settings
+// Settings panel
 // ═══════════════════════════════════════
-function updateSettingMeta() {
-  const d = storeGet(STORE_OFFERS);
-  const el = document.getElementById("settingMeta");
-  el.innerHTML =
-    "<p style='margin:0 0 2px'>API Key: " + config.apiKey.slice(0, 8) + "..." + config.apiKey.slice(-4) + "</p>" +
-    "<p style='margin:0 0 2px'>品牌數: " + offers.length + "</p>" +
-    "<p style='margin:0'>最後更新: " + new Date(d?.updatedAt || 0).toLocaleString("zh-TW") + "</p>";
-}
-
-async function refreshOffers() {
-  togglePanel("settings");
+const Settings = {
+  update() {
+    const meta = state.meta;
+    const el = document.getElementById("settingMeta");
+    el.innerHTML =
+      "<p style='margin:0 0 2px'>API Key: " + escapeHtml(state.config.apiKey.slice(0, 8) + "..." + state.config.apiKey.slice(-4)) + "</p>" +
+      "<p style='margin:0 0 2px'>已快取: " + state.offers.length + " 個品牌</p>" +
+      "<p style='margin:0 0 2px'>預期總數: " + (meta.expectedTotal || "—") + "</p>" +
+      "<p style='margin:0 0 2px'>已快取頁數: " + (meta.pagesCached?.join(", ") || "—") + "</p>" +
+      "<p style='margin:0 0 2px'>狀態: " + (meta.isFullyLoaded ? "✓ 全部載入完成" : "⏳ 累積載入中") + "</p>" +
+      "<p style='margin:0'>最後更新: " + formatTime(meta.updatedAt) + "</p>";
+ 
+    // 載入下一頁按鈕狀態
+    const loadNextBtn = document.getElementById("loadNextBtn");
+    const loadNextDesc = document.getElementById("loadNextDesc");
+    if (meta.isFullyLoaded) {
+      loadNextBtn.disabled = true;
+      loadNextBtn.textContent = "已完成";
+      loadNextDesc.textContent = "所有品牌都已載入";
+    } else if (meta.cooldownRemainingMs > 0) {
+      loadNextBtn.disabled = true;
+      loadNextBtn.textContent = "冷卻中";
+      loadNextDesc.textContent = "下次可載入: " + formatCooldown(meta.cooldownRemainingMs);
+    } else {
+      loadNextBtn.disabled = false;
+      loadNextBtn.textContent = "立即載入";
+      loadNextDesc.textContent = "立即拉取下一頁（API 配額充足）";
+    }
+ 
+    document.getElementById("autoLoadBtn").textContent = state.autoLoadOn ? "已開啟" : "已關閉";
+  },
+};
+ 
+// ═══════════════════════════════════════
+// Fetch operations
+// ═══════════════════════════════════════
+async function fetchNext(showToast = true) {
+  if (state.isFetching) return;
+  state.isFetching = true;
   try {
-    const res = await fetch(WORKER_URL + "/offers?api_key=" + encodeURIComponent(config.apiKey));
-    const json = await res.json();
-    offers = parseOffers(json.data || []);
-    storeSet(STORE_OFFERS, { offers, total: json.total, updatedAt: Date.now() });
-    document.getElementById("brandCount").textContent = offers.length + " 個品牌";
-    alert("品牌列表已更新，共 " + offers.length + " 個品牌");
-  } catch { alert("更新失敗，請稍後再試"); }
-}
-
-function handleLogout() {
-  if (!confirm("確定要清除所有資料嗎？")) return;
-  storeRemove(STORE_CONFIG);
-  storeRemove(STORE_OFFERS);
-  storeRemove(STORE_SUBIDS);
-  config = null;
-  offers = [];
-  currentPanel = null;
-  showSetupScreen();
-}
-
-// ═══════════════════════════════════════
-//  Init
-// ═══════════════════════════════════════
-(function init() {
-  config = storeGet(STORE_CONFIG);
-  const stored = storeGet(STORE_OFFERS);
-  history = storeGet(STORE_HISTORY) || [];
-
-  if (config && stored?.offers?.length) {
-    offers = stored.offers;
-    showMainScreen();
-  } else {
-    document.getElementById("apiKeyInput").value = config?.apiKey || "";
+    const res = await Api.fetchNext(state.config.apiKey);
+    state.meta = extractMeta(res);
+    // 重新拉完整列表（取得合併後的資料）
+    const fullJson = await Api.getOffers(state.config.apiKey);
+    state.offers = parseOffers(fullJson.data);
+    state.meta = extractMeta(fullJson);
+    Storage.set(STORE.CACHE_META, { offers: fullJson.data, meta: state.meta, ts: Date.now() });
+    Main.renderHeader();
+    Main.renderLoadBar();
+    if (state.currentPanel === "settings") Settings.update();
+    if (state.currentPanel === "brands") Brands.render();
+    if (showToast) {
+      if (res.fetched > 0) Toast.show("已載入 " + res.fetched + " 個新品牌", "ok");
+      else if (state.meta.isFullyLoaded) Toast.show("所有品牌都已載入", "ok");
+    }
+  } catch (e) {
+    if (showToast) Toast.show("載入失敗: " + e.message, "err");
+  } finally {
+    state.isFetching = false;
   }
-
-  // Enter key on setup
-  document.getElementById("apiKeyInput").addEventListener("keydown", function(e) {
-    if (e.key === "Enter") handleSetup();
+}
+ 
+async function refreshAll() {
+  if (!confirm("確定要清除快取重新拉取嗎？這會花較久時間。")) return;
+  state.isFetching = true;
+  try {
+    const res = await Api.refreshAll(state.config.apiKey);
+    state.meta = extractMeta(res);
+    const fullJson = await Api.getOffers(state.config.apiKey);
+    state.offers = parseOffers(fullJson.data);
+    state.meta = extractMeta(fullJson);
+    Storage.set(STORE.CACHE_META, { offers: fullJson.data, meta: state.meta, ts: Date.now() });
+    Main.renderHeader();
+    Main.renderLoadBar();
+    Settings.update();
+    Toast.show("已重新載入第一頁，背景會自動補齊", "ok");
+  } catch (e) {
+    Toast.show("重新載入失敗: " + e.message, "err");
+  } finally {
+    state.isFetching = false;
+  }
+}
+ 
+function logout() {
+  if (!confirm("確定要清除所有本機資料嗎？\n（Worker 的快取會保留，下次設定時可立即使用）")) return;
+  Storage.del(STORE.CONFIG);
+  Storage.del(STORE.CACHE_META);
+  Storage.del(STORE.SUBIDS);
+  Polling.stop();
+  Countdown.stop();
+  state.config = null;
+  state.offers = [];
+  state.meta = { totalCached: 0, expectedTotal: 0, isFullyLoaded: false, updatedAt: 0, nextFetchAllowedAt: 0, cooldownRemainingMs: 0 };
+  state.currentPanel = null;
+  Setup.show();
+}
+ 
+// ═══════════════════════════════════════
+// Background polling
+// ═══════════════════════════════════════
+const Polling = {
+  start() {
+    this.stop();
+    state.pollTimer = setInterval(async () => {
+      if (!state.autoLoadOn) return;
+      if (state.meta.isFullyLoaded) { this.stop(); return; }
+      if (state.meta.cooldownRemainingMs > 0) return;
+      await fetchNext(false);
+    }, POLL_INTERVAL_MS);
+  },
+  stop() {
+    if (state.pollTimer) { clearInterval(state.pollTimer); state.pollTimer = null; }
+  },
+};
+ 
+const Countdown = {
+  start() {
+    this.stop();
+    state.countdownTimer = setInterval(() => {
+      if (state.meta.cooldownRemainingMs > 0) {
+        state.meta.cooldownRemainingMs = Math.max(0, state.meta.cooldownRemainingMs - 1000);
+        Main.renderLoadBar();
+        if (state.currentPanel === "settings") Settings.update();
+      }
+    }, 1000);
+  },
+  stop() {
+    if (state.countdownTimer) { clearInterval(state.countdownTimer); state.countdownTimer = null; }
+  },
+};
+ 
+// ═══════════════════════════════════════
+// Event delegation
+// ═══════════════════════════════════════
+function bindEvents() {
+  // Setup
+  document.getElementById("setupBtn").addEventListener("click", () => Setup.handleSubmit());
+  document.getElementById("apiKeyInput").addEventListener("keydown", e => { if (e.key === "Enter") Setup.handleSubmit(); });
+ 
+  // Header
+  document.querySelectorAll(".hdr-btn[data-panel]").forEach(btn => {
+    btn.addEventListener("click", () => togglePanel(btn.dataset.panel));
   });
+  document.querySelectorAll("[data-close]").forEach(btn => {
+    btn.addEventListener("click", () => togglePanel(btn.dataset.close));
+  });
+ 
+  // Generate
+  document.getElementById("generateBtn").addEventListener("click", () => Generator.generate());
+  document.getElementById("urlInput").addEventListener("keydown", e => { if (e.key === "Enter") Generator.generate(); });
+  document.getElementById("urlInput").addEventListener("paste", e => {
+    const text = (e.clipboardData || window.clipboardData).getData("text");
+    if (text && text.includes("\n")) {
+      e.preventDefault();
+      autoDetectBatch(text);
+    }
+  });
+  document.getElementById("modeToggle").addEventListener("click", () => toggleBatchMode());
+  document.getElementById("subToggleBtn").addEventListener("click", toggleSubIds);
+ 
+  // Brands search
+  document.getElementById("brandSearchInput").addEventListener("input", () => Brands.render());
+ 
+  // History
+  document.getElementById("clearHistBtn").addEventListener("click", () => History.clear());
+  document.getElementById("histSearchInput").addEventListener("input", () => History.render());
+ 
+  // Settings
+  document.getElementById("loadNextBtn").addEventListener("click", () => fetchNext(true));
+  document.getElementById("refreshAllBtn").addEventListener("click", () => refreshAll());
+  document.getElementById("logoutBtn").addEventListener("click", () => logout());
+  document.getElementById("autoLoadBtn").addEventListener("click", () => {
+    state.autoLoadOn = !state.autoLoadOn;
+    Storage.set(STORE.AUTOLOAD, state.autoLoadOn);
+    Settings.update();
+    Toast.show(state.autoLoadOn ? "已開啟背景自動載入" : "已關閉背景自動載入", "ok");
+  });
+ 
+  // Delegation：結果區 / 歷史
+  document.addEventListener("click", e => {
+    const t = e.target.closest("[data-action]");
+    if (!t) return;
+    const action = t.dataset.action;
+    if (action === "copy") copyText(t.dataset.text, t);
+    else if (action === "copy-all") {
+      const urls = document.getElementById("actionRow").dataset.allUrls;
+      if (urls) copyText(urls, t);
+    }
+    else if (action === "export-csv") Results.exportCsv();
+    else if (action === "manual-gen") {
+      const idx = parseInt(t.dataset.idx);
+      const sel = document.querySelector('.manual-brand[data-idx="' + idx + '"]');
+      if (sel && sel.value) Results.manualApply(idx, sel.value);
+    }
+  });
+ 
+  // 鍵盤快捷鍵
+  document.addEventListener("keydown", e => {
+    if (document.getElementById("setup-screen").classList.contains("hidden") === false) return;
+    // Ctrl/Cmd + K → 開品牌搜尋
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+      e.preventDefault();
+      if (state.currentPanel !== "brands") togglePanel("brands");
+      setTimeout(() => document.getElementById("brandSearchInput").focus(), 50);
+    }
+    // Esc → 關閉面板
+    if (e.key === "Escape" && state.currentPanel) {
+      togglePanel(state.currentPanel);
+    }
+  });
+}
+ 
+// ═══════════════════════════════════════
+// Init
+// ═══════════════════════════════════════
+async function init() {
+  bindEvents();
+ 
+  state.config = Storage.get(STORE.CONFIG);
+  state.history = Storage.get(STORE.HISTORY) || [];
+  state.autoLoadOn = Storage.get(STORE.AUTOLOAD) !== false;
+ 
+  // 先從本機讀取舊快取（即時可用）
+  const localCache = Storage.get(STORE.CACHE_META);
+  if (state.config && localCache?.offers) {
+    state.offers = parseOffers(localCache.offers);
+    state.meta = localCache.meta || state.meta;
+    Main.show();
+    // 背景同步最新狀態
+    try {
+      const fullJson = await Api.getOffers(state.config.apiKey);
+      state.offers = parseOffers(fullJson.data);
+      state.meta = extractMeta(fullJson);
+      Storage.set(STORE.CACHE_META, { offers: fullJson.data, meta: state.meta, ts: Date.now() });
+      Main.renderHeader();
+      Main.renderLoadBar();
+    } catch (e) {
+      console.warn("背景同步失敗", e);
+    }
+  } else if (state.config) {
+    // 有 config 但無快取 → 從 Worker 拉
+    try {
+      const fullJson = await Api.getOffers(state.config.apiKey);
+      if (fullJson.data && fullJson.data.length > 0) {
+        state.offers = parseOffers(fullJson.data);
+        state.meta = extractMeta(fullJson);
+        Storage.set(STORE.CACHE_META, { offers: fullJson.data, meta: state.meta, ts: Date.now() });
+        Main.show();
+      } else {
+        Setup.show();
+      }
+    } catch {
+      Setup.show();
+    }
+  } else {
+    Setup.show();
+  }
+}
+ 
+init();
+ 
 })();
 </script>
 </body>
 </html>
+ 
